@@ -1,3 +1,24 @@
+<?php
+// we will make CRUD
+// lets start with Create 
+ //open connection 
+ include('includes/connection.php');
+
+if(isset($_POST['submit'])){
+    $admin_email    = $_POST['admin_email'];
+    $admin_password = $_POST['admin_password'];
+    $admin_fullname = $_POST['admin_fullname'];
+    $dept           = $_POST['dept'];
+
+   
+    // query 
+    $query = "insert into admin(admin_email,admin_password,admin_fullname,dept)
+              values('$admin_email','$admin_password','$admin_fullname','$dept')";
+    mysqli_query($conn,$query);
+}
+
+
+ ?>
 <?php include('includes/admin_header.php'); ?>
 <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -59,7 +80,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+                                          <?php
+                                            $query        = "select * from admin";
+                                            $result       = mysqli_query($conn,$query);
+                                            while($row    = mysqli_fetch_assoc($result)){
+                                                echo "<tr>";
+                                                echo "<td>{$row['admin_id']}</td>";
+                                                echo "<td>{$row['admin_email']}</td>";
+                                                echo "<td>{$row['admin_fullname']}</td>";
+                                                echo "<td>{$row['dept']}</td>";
+                                                echo "<td><a href='edit_admin.php?id={$row['admin_id']}'>Edit</a></td>";
+                                                echo "<td><a href='delete_admin.php?id={$row['admin_id']}'>Delete</a></td>";
+                                                echo "</tr>";
+                                        }
+
+                                           ?>  
                                         </tbody>
                                     </table>
                                 </div>
